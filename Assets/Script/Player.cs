@@ -14,6 +14,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        HandleBirdRotation();
+    }
+
+    void HandleBirdRotation()
+    {
         if (rb.linearVelocity.y < 0)
         {
             if (rotate > -45f)
