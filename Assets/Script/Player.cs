@@ -1,12 +1,12 @@
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
     
-    private float rotate;
-    [SerializeField] private short speed;
+    [Header("Movement Settings")]
+    [SerializeField] private float currentTiltAngle;
+    [SerializeField] private short rotationSpeed;
     [SerializeField] private short jumpForce;
 
     void Start()
@@ -37,11 +37,16 @@ public class Player : MonoBehaviour
     {
         if (rb.linearVelocity.y < 0)
         {
-            if (rotate > -90f)
+            if (currentTiltAngle > -90f)
             {
-                rotate = Mathf.Max(-80f, rotate - Time.deltaTime * speed);
-                transform.rotation = quaternion.Euler(0, 0, rotate * Time.deltaTime);
+                currentTiltAngle = Mathf.Max(-80f, currentTiltAngle - Time.deltaTime * rotationSpeed);
+                transform.rotation = Quaternion.Euler(0, 0, currentTiltAngle);
             }
+        }
+        if (rb.linearVelocity.y > 0 && currentTiltAngle < 45f)
+        {
+            currentTiltAngle = Mathf.Min(45f, currentTiltAngle + Time.deltaTime * rotationSpeed * 10);
+            transform.rotation = Quaternion.Euler(0, 0, currentTiltAngle);
         }
     }
 }
