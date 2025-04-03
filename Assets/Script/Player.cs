@@ -1,11 +1,13 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
     
-    [SerializeField] private float rotate;
+    private float rotate;
     [SerializeField] private short speed;
+    [SerializeField] private short jumpForce;
 
     void Start()
     {
@@ -14,17 +16,31 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
+    }
+
+    void FixedUpdate()
+    {
         HandleBirdRotation();
+    }
+
+    void Jump()
+    {
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
     void HandleBirdRotation()
     {
         if (rb.linearVelocity.y < 0)
         {
-            if (rotate > -45f)
+            if (rotate > -90f)
             {
-                rotate = Mathf.Max(-45f, rotate - Time.deltaTime * speed);
-                transform.Rotate(0, 0, -Time.deltaTime * speed);
+                rotate = Mathf.Max(-80f, rotate - Time.deltaTime * speed);
+                transform.rotation = quaternion.Euler(0, 0, rotate * Time.deltaTime);
             }
         }
     }
