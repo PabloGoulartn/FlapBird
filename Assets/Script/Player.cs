@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     
     [Header("Movement Settings")]
-    [SerializeField] private float currentTiltAngle;
+    private float currentTiltAngle;
     [SerializeField] private short rotationSpeed;
     [SerializeField] private short jumpForce;
 
